@@ -4,7 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager {
-    public static  final String PATH = "src/files/diccionario.txt";
+    public static  final String PATH = "src/files/word.txt";
     private FileReader fileReader;
     private BufferedReader input;
     private FileWriter fileWriter;

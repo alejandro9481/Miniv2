@@ -5,8 +5,9 @@ import java.util.Random;
 
 public class Word {
     private ArrayList<String> diccionario = new ArrayList<String>();
-    private int range = diccionario.size();
+    private int range;
     public Word(){
+        this.range = 200;
         FileManager fileManager = new FileManager();
         diccionario = fileManager.lecturaFile();
     }

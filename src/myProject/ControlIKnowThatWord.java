@@ -10,12 +10,20 @@ import java.util.Random;
 public class ControlIKnowThatWord {
     private int time, level, success, cont, fail, learnWord;
     private String [] trueWord, allWord;
-    private boolean lose, win, start = true;
-    private Word word;
+    private String firstWord;
 
+    private boolean lose, win, start;
+    private Word word = new Word();
+
+    /**
+     * Clase IKnowThatWord is the constructor
+     */
     public ControlIKnowThatWord(int level){
         this.level = level;
         this.time = 0;
+        this.cont = 0;
+        this.start = true;
+        this.firstWord = "";
         levelSize();
 
         this.trueWord = new String[learnWord];
@@ -25,6 +33,9 @@ public class ControlIKnowThatWord {
         trueSelection();
     }
 
+    /**
+     * Method fullSelection is ...
+     */
     public String[] fullSelection(){
         Random random = new Random();
         random.nextInt(word.getRange());
@@ -38,12 +49,13 @@ public class ControlIKnowThatWord {
                     i--;
                 }
             }
-            //System.out.println(allWord[i]);
         }
-
         return allWord;
     }
 
+    /**
+     * Method trueSelection is ...
+     */
     public String[] trueSelection(){
         Random random = new Random();
         random.nextInt(2*learnWord);
@@ -60,10 +72,16 @@ public class ControlIKnowThatWord {
                     i--;
                 }
             }
-            //System.out.println(trueWord[i]);
         }
+        /*System.out.println(trueWord[0]);
+        System.out.println(trueWord[1]);
+        System.out.println(trueWord[2]);*/
         return trueWord;
     }
+
+    /**
+     * Method levelSize is ...
+     */
     public int levelSize(){
         int five = 5;
 
@@ -79,6 +97,9 @@ public class ControlIKnowThatWord {
         }
     }
 
+    /**
+     * Method message is ...
+     */
     public int message(){
         if(level == 1 || level == 2){
             return 70;
@@ -97,6 +118,9 @@ public class ControlIKnowThatWord {
         }
     }
 
+    /**
+     * Method verifyAnswer is ...
+     */
     public int verifyAnswer(){
         if(level == 3){
             return 38;
@@ -108,6 +132,10 @@ public class ControlIKnowThatWord {
             return 200;
         }
     }
+
+    public String getFirstWord() { return firstWord; }
+
+    public void setFirstWord(String firstWord) { this.firstWord = firstWord; }
 
     public int getLearnWord() { levelSize();return learnWord;}
 

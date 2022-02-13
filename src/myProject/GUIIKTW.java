@@ -19,7 +19,7 @@ import java.text.DecimalFormat;
 
 public class GUIIKTW extends JFrame {
 
-    private JPanel panelsur, panelCentro, panelNorte, panelPalabra;
+    private JPanel panelsur, panelCentro, panelNorte;
     private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2;
     private JButton si,no,salir;
 
@@ -29,9 +29,6 @@ public class GUIIKTW extends JFrame {
 
     private DecimalFormat df = new DecimalFormat("#.00");
     private ControlIKnowThatWord control = new ControlIKnowThatWord(1);
-
-
-
 
     /**
      * Constructor of GUI class
@@ -69,17 +66,22 @@ public class GUIIKTW extends JFrame {
         no = new JButton("NOT");                no.addActionListener(escucha);
         salir = new JButton("EXIT");            salir.addActionListener(escucha);
 
+        //No visible e inhabilitado
+        si.setVisible(false);               si.setEnabled(false);
+        no.setVisible(false);               no.setEnabled(false);
+        salir.setVisible(false);            salir.setEnabled(false);
+
         //JPanels
         panelsur = new JPanel();    panelCentro = new JPanel();
-        panelNorte = new JPanel();  panelPalabra = new JPanel();
+        panelNorte = new JPanel();
 
 
         //JLabels
         puntuacion = new JLabel("Score:");
         nivel = new JLabel("Level: ");
-        palabra = new JLabel("Word");
+        palabra = new JLabel(control.getFirstWord());
         espacio0 = new JLabel("                                              "+
-                "                                                                         ");
+                "                                                                            ");
         espacio1 = new JLabel("                                      ");
         espacio2 = new JLabel("                                              "+
                                     "                                             "+
@@ -108,6 +110,8 @@ public class GUIIKTW extends JFrame {
         panelsur.add(salir);
         this.add(panelsur,BorderLayout.SOUTH);
 
+        control.setTime(control.getTime()+3);
+        tiempo.start();
     }
 
     public void finalRonda(){
@@ -132,8 +136,6 @@ public class GUIIKTW extends JFrame {
                 System.exit(0);
             }
         }else{
-
-            /* Salida : 1.42*/
             int option = JOptionPane.showConfirmDialog(panelCentro, "Ganaste!!\n"+
                             " End of level \n"+
                             " You have passed to the next level. \n"+
@@ -176,29 +178,60 @@ public class GUIIKTW extends JFrame {
                 System.exit(0);
             }else if(eventAction.getSource() == tiempo){
 
+                //Para saber si es el inicio de la vista o no
                 if(control.isStart()){
+                //System.out.println("aquí estoy");
                     control.setTime(control.getTime()+1);
-                    if(control.getTime()<=5){
+                    if(control.getTime() < 1){//5
 
                     }else{
                         //Palabra
                         control.setTime(0);
 
-                        //Condicional para que muestre las palabras verdaderas
+                        //Condicional para que muestre las palabras verdaderas cada 5 segundos
                         if(control.getTrueWord().length > control.getCont()){
+                            control.setFirstWord(control.getTrueWord()[control.getCont()]);
+                            control.setCont(control.getCont()+1);
+                            palabra.setText(control.getFirstWord());
+                            panelNorte.repaint();
+                        }else{
                             control.setStart(false);
                             control.setCont(0);
+                            tiempo.stop();
+
+                            int option = JOptionPane.showConfirmDialog(panelCentro,
+                                    "Desea continuar?",
+
+                                    "¿?", JOptionPane.YES_NO_OPTION);
+
+                            if(option == JOptionPane.YES_OPTION){
+                                // visible y Habilitado
+                                si.setVisible(true);               si.setEnabled(true);
+                                no.setVisible(true);               no.setEnabled(true);
+                                salir.setVisible(true);            salir.setEnabled(true);
+
+                                tiempo.start();
+                            }else{
+                                System.exit(0);
+                            }
                         }
                     }
                 }else{
                     control.setTime(control.getTime()+1);
-                    if(control.getTime()<=7){
+                    if(control.getTime() < 1){//7
 
                     }else{
                         control.setTime(0);
+
                         //Condicional para que muestre todas las palabras 
                         if(control.getAllWord().length > control.getCont()){
-                            control.setStart(false);
+                            control.setFirstWord(control.getTrueWord()[control.getCont()]);
+                            control.setCont(control.getCont()+1);
+                            palabra.setText(control.getFirstWord());
+
+                            panelNorte.repaint();
+
+                        }else{
                             control.setCont(0);
                         }
                     }
@@ -212,6 +245,8 @@ public class GUIIKTW extends JFrame {
             }else if(eventAction.getSource() == salir){
 
             }
+            revalidate();
+            repaint();
         }
     }
 }

@@ -98,20 +98,14 @@ public class ControlIKnowThatWord {
     }
 
     public int verifyAnswer(){
-        if(level == 1 || level == 2){
+        if(level == 3){
+            return 38;
+        }else if(level == 1 || level == 2 || level == 4 ||
+                level == 5 || level == 6 || level == 7  ||
+                level == 8 || level == 9){
             return message()*learnWord*2/100;
-        }else if(level == 3){
-            return 75;
-        }else if(level == 4 || level == 5){
-            return 80;
-        }else if(level == 6){
-            return 85;
-        }else if(level == 7 || level == 8){
-            return 90;
-        }else if(level == 9){
-            return 95;
         }else{
-            return 100;
+            return 200;
         }
     }
 

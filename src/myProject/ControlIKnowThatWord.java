@@ -10,7 +10,7 @@ import java.util.Random;
 public class ControlIKnowThatWord {
     private int time, level, success, cont, fail, learnWord, score;
     private String [] trueWord, allWord;
-    private String firstWord;
+    private String firstWord, name;
 
     private boolean yesOrNot, start;
     private Word word = new Word();
@@ -18,7 +18,9 @@ public class ControlIKnowThatWord {
     /**
      * Clase IKnowThatWord is the constructor
      */
-    public ControlIKnowThatWord(int level){
+    public ControlIKnowThatWord(int level, String name){
+        this.word = new Word();
+        this.name = name;
         this.level = level;
         this.score = score;
         this.success = 0;
@@ -142,6 +144,10 @@ public class ControlIKnowThatWord {
             return 200;
         }
     }
+
+    public String getName() { return name; }
+
+    public void setName(String name) { this.name = name; }
 
     public int getScore() { return score; }
 

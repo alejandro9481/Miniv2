@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class FileManager {
     public static  final String PATH = "src/files/word.txt";
     public static  final String PATH2 = "src/files/datos.txt";
-    private FileReader fileReader;
-    private BufferedReader input;
+    private FileReader fileReader , fileReaderUsuario;
+    private BufferedReader input , inputUsuario;
     private FileWriter fileWriter;
     private BufferedWriter output;
 
@@ -39,12 +39,12 @@ public class FileManager {
     public ArrayList<String> LecturaUsuario() {
         ArrayList<String> datos = new ArrayList<String>();
         try {
-            fileReader = new FileReader(PATH2);
-            input = new BufferedReader(fileReader);
-            String line = input.readLine();
+            fileReaderUsuario = new FileReader(PATH2);
+            inputUsuario = new BufferedReader(fileReaderUsuario);
+            String line = inputUsuario.readLine();
             while(line!=null){
                 datos.add(line);
-                line=input.readLine();
+                line=inputUsuario.readLine();
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class FileManager {
             e.printStackTrace();
         }finally{
             try {
-                input.close();
+                inputUsuario.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -62,7 +62,7 @@ public class FileManager {
 
     public void escribirTexto(String linea){
         try {
-            fileWriter = new FileWriter("src/myProject/files/fileText.txt",true);
+            fileWriter = new FileWriter("src/files/datos.txt",true);
             output = new BufferedWriter(fileWriter);
             output.write(linea);
             output.newLine();

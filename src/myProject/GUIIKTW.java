@@ -19,26 +19,26 @@ public class GUIIKTW extends JFrame {
     private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2;
     private JButton si, no, salir, ingresar;
     private JTextField ingresarNombre;
-    private JFrame vista= this;
+    private JFrame vista = this;
     private Timer tiempo;
     private Escucha escucha;
 
     private DecimalFormat df = new DecimalFormat("#.00");
-    private ControlIKnowThatWord control = new ControlIKnowThatWord(1);
+    private ControlIKnowThatWord control = new ControlIKnowThatWord(1,"");
+    private ControlIKnowThatWord controlSInControl ;
 
     /**
      * Constructor of GUI class
      */
     public GUIIKTW(){
 
-            //this.removeAll();
             escucha = new Escucha();
             initGUI();
-            //initDIU(control);
+
             //Default JFrame configuration
 
             this.setTitle("I KNOW THAT WORD!! ");
-            this.setSize(400,300);
+            //this.setSize(400,300);
             this.pack();
             this.setResizable(true);
             this.setVisible(true);
@@ -60,11 +60,13 @@ public class GUIIKTW extends JFrame {
         panelUsuarioN.add(ingresarNombre);
         panelUsuarioS.add(ingresar);
         ingresar.addActionListener(escucha);
-        this.add(panelUsuarioN,BorderLayout.NORTH);
-        this.add(panelUsuarioS,BorderLayout.SOUTH);
+
         panelUsuarioN.setPreferredSize(new Dimension(350,60));
         panelUsuarioN.setBorder(BorderFactory.createTitledBorder("Enter your username (Example: alejandro)"));
         panelUsuarioS.setPreferredSize(new Dimension(350,40));
+
+        this.add(panelUsuarioN,BorderLayout.NORTH);
+        this.add(panelUsuarioS,BorderLayout.SOUTH);
 
     }
 
@@ -155,7 +157,7 @@ public class GUIIKTW extends JFrame {
             if(option == JOptionPane.YES_OPTION){
                 //Reinicio ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel());
+                control = new ControlIKnowThatWord(control.getLevel(),ingresarNombre.getText());
                 initDIU(control);
                 revalidate();
                 repaint();
@@ -178,7 +180,7 @@ public class GUIIKTW extends JFrame {
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel()+1);
+                control = new ControlIKnowThatWord(control.getLevel()+1,ingresarNombre.getText());
                 initDIU(control);
 
                 revalidate();
@@ -243,7 +245,7 @@ public class GUIIKTW extends JFrame {
                 si.setEnabled(true); no.setEnabled(true);
                 panelCentro.setBackground(Color.WHITE);
                 //Para saber si es el inicio de la vista o no
-                if(control.isStart()){
+                if(controlSInControl.isStart()){
                 //System.out.println("aquí estoy");
                     control.setTime(control.getTime()+1);
                     if(control.getTime() < 1){//5
@@ -405,6 +407,9 @@ public class GUIIKTW extends JFrame {
                     control.setTime(0);
                 }
             }else if(eventAction.getSource() == ingresar){
+                //Guardamos el nombre del JTextField
+                control.setName(ingresarNombre.getText());
+
                 //Se quita el boton de inicio porque solamente se puede activar una vez por ejecución del programa
                 ingresar.setVisible(false);
                 ingresar.setEnabled(false);
@@ -414,9 +419,25 @@ public class GUIIKTW extends JFrame {
                 panelUsuarioS.setEnabled(false);
                 vista.remove(panelUsuarioN);
                 vista.remove(panelUsuarioS);
-                initDIU(control);
-                pack();//setSize(900,400);
+
+                //control.getWord().ultimoNombre();
+
+                if(control.getWord().getUsuario(control.getName())){
+                    int a = control.getWord().ultimoNombre(control.getName());
+                    int b = control.getWord().getLevel(a);
+
+                    ControlIKnowThatWord controlNew = new ControlIKnowThatWord(b, control.getName());
+                    controlSInControl = controlNew;
+                    initDIU(controlSInControl);
+                }else{
+                    initDIU(controlSInControl);
+                    control.getWord().setLevelName(control.getName(),1);
+                }
+
+                vista.pack();
                 vista.setLocationRelativeTo(null);
+                revalidate();
+                repaint();
             }
             revalidate();
             repaint();

@@ -34,8 +34,9 @@ public class ControlIKnowThatWord {
         this.trueWord = new String[learnWord];
         this.allWord = new String[2*learnWord];
 
-        fullSelection();
-        trueSelection();
+            fullSelection();
+            trueSelection();
+
     }
 
     /**

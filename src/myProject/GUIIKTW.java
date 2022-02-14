@@ -25,7 +25,7 @@ public class GUIIKTW extends JFrame {
 
     private DecimalFormat df = new DecimalFormat("#.00");
     private ControlIKnowThatWord control = new ControlIKnowThatWord(1,"");
-    private ControlIKnowThatWord controlSInControl ;
+    private ControlIKnowThatWord c0ntrol = null;
 
     /**
      * Constructor of GUI class
@@ -135,34 +135,34 @@ public class GUIIKTW extends JFrame {
         no.setVisible(false);               no.setEnabled(false);
         salir.setVisible(false);            salir.setEnabled(false);
 
-        control.setTime(otro.getTime()+4);
+        otro.setTime(otro.getTime()+4);
         tiempo.start();
     }
 
     public void finalRonda(){
-        double porcentajeAciertos = (100/(2*control.getLearnWord()))*control.getSuccess();
+        double porcentajeAciertos = (100/(2* c0ntrol.getLearnWord()))* c0ntrol.getSuccess();
 
-        if(control.getSuccess() < control.verifyAnswer()){
+        if(c0ntrol.getSuccess() < c0ntrol.verifyAnswer()){
             int option = JOptionPane.showConfirmDialog(panelCentro, "You Lose!!\n"+
                         " End of level \n"+
                         " You have not passed the level. \n"+
-                        " You need a "+control.message()+
+                        " You need a "+ c0ntrol.message()+
                         "% of right guess to go to the next level. \n"+
-                        " Right guess:  "+control.getSuccess()+" \n"+
+                        " Right guess:  "+ c0ntrol.getSuccess()+" \n"+
                         " Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
-                        " Score: "+control.getSuccess()*10+" \n"+
+                        " Score: "+ c0ntrol.getSuccess()*10+" \n"+
                         " Do you want to play the same round?",
 
                     "Defeat ", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //Reinicio ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel(),ingresarNombre.getText());
-                initDIU(control);
+                c0ntrol = new ControlIKnowThatWord(c0ntrol.getLevel(),ingresarNombre.getText());
+                c0ntrol.getWord().setLevelName(c0ntrol.getName(),1);
+                initDIU(c0ntrol);
                 revalidate();
                 repaint();
             }else if(option == JOptionPane.NO_OPTION){
-                //Guardar ronda
 
 
                 System.exit(0);
@@ -171,23 +171,29 @@ public class GUIIKTW extends JFrame {
             int option = JOptionPane.showConfirmDialog(panelCentro, "you win!!\n"+
                             " End of level \n"+
                             " You have passed to the next level. \n"+
-                            " Right guess:  "+control.getSuccess()+" \n"+
+                            " Right guess:  "+ c0ntrol.getSuccess()+" \n"+
                             " Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
-                            " Score: "+control.getSuccess()*10+" \n"+
+                            " Score: "+ c0ntrol.getSuccess()*10+" \n"+
                             " Do you want to play another round ?",
 
                     "Victory", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel()+1,ingresarNombre.getText());
-                initDIU(control);
+                c0ntrol = new ControlIKnowThatWord(c0ntrol.getLevel()+1,ingresarNombre.getText());
+                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
+                initDIU(c0ntrol);
 
                 revalidate();
                 repaint();
             }else if(option == JOptionPane.NO_OPTION){
                 //Guardar los datos
+                int a = control.getWord().ultimoNombre(control.getName());
+                int b = control.getWord().getLevel(a);
 
+                ControlIKnowThatWord controlNew = new ControlIKnowThatWord(b, control.getName());
+                c0ntrol = controlNew;
+                initDIU(c0ntrol);
 
                 System.exit(0);
             }
@@ -195,15 +201,15 @@ public class GUIIKTW extends JFrame {
     }
 
     public boolean encontrar(String palabra){
-        for(int i=0;i<control.getTrueWord().length;i++){
-            if(palabra == control.getTrueWord()[i]){
-                control.setYesOrNot(true);
-                i += control.getTrueWord().length;
+        for(int i = 0; i< c0ntrol.getTrueWord().length; i++){
+            if(palabra == c0ntrol.getTrueWord()[i]){
+                c0ntrol.setYesOrNot(true);
+                i += c0ntrol.getTrueWord().length;
             }else{
-                control.setYesOrNot(false);
+                c0ntrol.setYesOrNot(false);
             }
         }
-        return control.isYesOrNot();
+        return c0ntrol.isYesOrNot();
     }
 
     public void vaciarDIU(){
@@ -245,24 +251,24 @@ public class GUIIKTW extends JFrame {
                 si.setEnabled(true); no.setEnabled(true);
                 panelCentro.setBackground(Color.WHITE);
                 //Para saber si es el inicio de la vista o no
-                if(controlSInControl.isStart()){
+                if(c0ntrol.isStart()){
                 //System.out.println("aquí estoy");
-                    control.setTime(control.getTime()+1);
-                    if(control.getTime() < 1){//5
+                    c0ntrol.setTime(c0ntrol.getTime()+1);
+                    if(c0ntrol.getTime() < 1){//5
 
                     }else{
                         //Palabra
-                        control.setTime(0);
+                        c0ntrol.setTime(0);
 
                         //Condicional para que muestre las palabras verdaderas cada 5 segundos
-                        if(control.getTrueWord().length > control.getCont()){
-                            control.setFirstWord(control.getTrueWord()[control.getCont()]);
-                            control.setCont(control.getCont()+1);
-                            palabra.setText(control.getFirstWord());
+                        if(c0ntrol.getTrueWord().length > c0ntrol.getCont()){
+                            c0ntrol.setFirstWord(c0ntrol.getTrueWord()[c0ntrol.getCont()]);
+                            c0ntrol.setCont(c0ntrol.getCont()+1);
+                            palabra.setText(c0ntrol.getFirstWord());
                             panelNorte.repaint();
                         }else{
-                            control.setStart(false);
-                            control.setCont(-1);
+                            c0ntrol.setStart(false);
+                            c0ntrol.setCont(-1);
 
                             tiempo.stop();
 
@@ -271,9 +277,9 @@ public class GUIIKTW extends JFrame {
 
                                     "¿?", JOptionPane.YES_NO_OPTION);
 
-                            control.setCont(control.getCont()+1);
-                            control.setFirstWord(control.getAllWord()[control.getCont()]);
-                            palabra.setText(control.getFirstWord());
+                            c0ntrol.setCont(c0ntrol.getCont()+1);
+                            c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                            palabra.setText(c0ntrol.getFirstWord());
 
                             panelNorte.repaint();
 
@@ -289,19 +295,19 @@ public class GUIIKTW extends JFrame {
                         }
                     }
                 }else{
-                    control.setTime(control.getTime()+1);
-                    if(control.getTime() < 7){//7
+                    c0ntrol.setTime(c0ntrol.getTime()+1);
+                    if(c0ntrol.getTime() < 7){//7
 
                     }else{
                         //ERROR
                         panelCentro.setBackground(Color.RED);
-                        control.setFail(control.getFail()+1);
+                        c0ntrol.setFail(c0ntrol.getFail()+1);
 
                         //Condicional para que muestre todas las palabras 
-                        if(control.getAllWord().length > control.getCont()+1){
-                            control.setCont(control.getCont()+1);
-                            control.setFirstWord(control.getAllWord()[control.getCont()]);
-                            palabra.setText(control.getFirstWord());
+                        if(c0ntrol.getAllWord().length > c0ntrol.getCont()+1){
+                            c0ntrol.setCont(c0ntrol.getCont()+1);
+                            c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                            palabra.setText(c0ntrol.getFirstWord());
 
 
                             panelNorte.repaint();
@@ -309,10 +315,10 @@ public class GUIIKTW extends JFrame {
                         }else{
                             //Estadisticas de la partida
                             tiempo.stop();
-                            control.setCont(0);
+                            c0ntrol.setCont(0);
                             finalRonda();
                         }
-                        control.setTime(0);
+                        c0ntrol.setTime(0);
                     }
                 }
 
@@ -320,91 +326,91 @@ public class GUIIKTW extends JFrame {
             }else if(eventAction.getSource() == si){
                 si.setEnabled(false);no.setEnabled(false);
 
-                if(encontrar(control.getFirstWord())){
+                if(encontrar(c0ntrol.getFirstWord())){
                     //Correcto
                     panelCentro.setBackground(Color.GREEN);
-                    control.setSuccess(control.getSuccess()+1);
-                    puntuacion.setText("       Score:       "+control.getSuccess()*10);
+                    c0ntrol.setSuccess(c0ntrol.getSuccess()+1);
+                    puntuacion.setText("       Score:       "+c0ntrol.getSuccess()*10);
                     panelsur.repaint();
 
                     //Cambio de palabra
-                    if(control.getAllWord().length > control.getCont()+1){
-                        control.setCont(control.getCont()+1);
-                        control.setFirstWord(control.getAllWord()[control.getCont()]);
-                        palabra.setText(control.getFirstWord());
+                    if(c0ntrol.getAllWord().length > c0ntrol.getCont()+1){
+                        c0ntrol.setCont(c0ntrol.getCont()+1);
+                        c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                        palabra.setText(c0ntrol.getFirstWord());
 
                         panelNorte.repaint();
                     }else{
                         //Estadisticas de la partida
                         tiempo.stop();
-                        control.setCont(0);
+                        c0ntrol.setCont(0);
                         finalRonda();
                     }
 
-                    control.setTime(0);
+                    c0ntrol.setTime(0);
                 }else{
                     //ERROR
                     panelCentro.setBackground(Color.RED);
-                    control.setFail(control.getFail()+1);
+                    c0ntrol.setFail(c0ntrol.getFail()+1);
 
                     //Cambio de palabra
-                    if(control.getAllWord().length > control.getCont()+1){
-                        control.setCont(control.getCont()+1);
-                        control.setFirstWord(control.getAllWord()[control.getCont()]);
-                        palabra.setText(control.getFirstWord());
+                    if(c0ntrol.getAllWord().length > c0ntrol.getCont()+1){
+                        c0ntrol.setCont(c0ntrol.getCont()+1);
+                        c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                        palabra.setText(c0ntrol.getFirstWord());
 
                         panelNorte.repaint();
                     }else{
                         //Estadisticas de la partida
                         tiempo.stop();
-                        control.setCont(0);
+                        c0ntrol.setCont(0);
                         finalRonda();
                     }
-                    control.setTime(0);
+                    c0ntrol.setTime(0);
                 }
             }else if(eventAction.getSource() == no){
                 no.setEnabled(false);si.setEnabled(false);
 
-                if(encontrar(control.getFirstWord())){
+                if(encontrar(c0ntrol.getFirstWord())){
                     //ERROR
                     panelCentro.setBackground(Color.RED);
-                    control.setFail(control.getFail()+1);
+                    c0ntrol.setFail(c0ntrol.getFail()+1);
 
                     //Cambio de palabra
-                    if(control.getAllWord().length > control.getCont()+1){
-                        control.setCont(control.getCont()+1);
-                        control.setFirstWord(control.getAllWord()[control.getCont()]);
-                        palabra.setText(control.getFirstWord());
+                    if(c0ntrol.getAllWord().length > c0ntrol.getCont()+1){
+                        c0ntrol.setCont(c0ntrol.getCont()+1);
+                        c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                        palabra.setText(c0ntrol.getFirstWord());
 
                         panelNorte.repaint();
                     }else{
                         //Estadisticas de la partida
                         tiempo.stop();
-                        control.setCont(0);
+                        c0ntrol.setCont(0);
                         finalRonda();
                     }
-                    control.setTime(0);
+                    c0ntrol.setTime(0);
                 }else{
                     //Correcto
                     panelCentro.setBackground(Color.GREEN);
-                    control.setSuccess(control.getSuccess()+1);
-                    puntuacion.setText("       Score:       "+control.getSuccess()*10);
+                    c0ntrol.setSuccess(c0ntrol.getSuccess()+1);
+                    puntuacion.setText("       Score:       "+c0ntrol.getSuccess()*10);
                     panelsur.repaint();
 
                     //Cambio de palabra
-                    if(control.getAllWord().length > control.getCont()+1){
-                        control.setCont(control.getCont()+1);
-                        control.setFirstWord(control.getAllWord()[control.getCont()]);
-                        palabra.setText(control.getFirstWord());
+                    if(c0ntrol.getAllWord().length > c0ntrol.getCont()+1){
+                        c0ntrol.setCont(c0ntrol.getCont()+1);
+                        c0ntrol.setFirstWord(c0ntrol.getAllWord()[c0ntrol.getCont()]);
+                        palabra.setText(c0ntrol.getFirstWord());
 
                         panelNorte.repaint();
                     }else{
                         //Estadisticas de la partida
                         tiempo.stop();
-                        control.setCont(0);
+                        c0ntrol.setCont(0);
                         finalRonda();
                     }
-                    control.setTime(0);
+                    c0ntrol.setTime(0);
                 }
             }else if(eventAction.getSource() == ingresar){
                 //Guardamos el nombre del JTextField
@@ -420,18 +426,17 @@ public class GUIIKTW extends JFrame {
                 vista.remove(panelUsuarioN);
                 vista.remove(panelUsuarioS);
 
-                //control.getWord().ultimoNombre();
-
                 if(control.getWord().getUsuario(control.getName())){
                     int a = control.getWord().ultimoNombre(control.getName());
                     int b = control.getWord().getLevel(a);
 
                     ControlIKnowThatWord controlNew = new ControlIKnowThatWord(b, control.getName());
-                    controlSInControl = controlNew;
-                    initDIU(controlSInControl);
+                    c0ntrol = controlNew;
+                    initDIU(c0ntrol);
                 }else{
-                    initDIU(controlSInControl);
-                    control.getWord().setLevelName(control.getName(),1);
+                    c0ntrol = control;
+                    initDIU(c0ntrol);
+                    c0ntrol.getWord().setLevelName(c0ntrol.getName(),1);
                 }
 
                 vista.pack();

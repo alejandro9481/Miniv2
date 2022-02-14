@@ -24,7 +24,7 @@ public class GUIIKTW extends JFrame {
     private Escucha escucha;
 
     private DecimalFormat df = new DecimalFormat("#.00");
-    private ControlIKnowThatWord control = new ControlIKnowThatWord(1,0);
+    private ControlIKnowThatWord control = new ControlIKnowThatWord(1);
 
     /**
      * Constructor of GUI class
@@ -141,7 +141,7 @@ public class GUIIKTW extends JFrame {
             if(option == JOptionPane.YES_OPTION){
                 //Reinicio ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel(), control.getScore());
+                control = new ControlIKnowThatWord(control.getLevel());
                 initDIU(control);
                 revalidate();
                 repaint();
@@ -164,7 +164,7 @@ public class GUIIKTW extends JFrame {
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
                 vaciarDIU();
-                control = new ControlIKnowThatWord(control.getLevel()+1, control.getSuccess()*10);
+                control = new ControlIKnowThatWord(control.getLevel()+1);
                 initDIU(control);
 
                 revalidate();
@@ -247,6 +247,7 @@ public class GUIIKTW extends JFrame {
                         }else{
                             control.setStart(false);
                             control.setCont(-1);
+
                             tiempo.stop();
 
                             int option = JOptionPane.showConfirmDialog(panelCentro,
@@ -254,11 +255,18 @@ public class GUIIKTW extends JFrame {
 
                                     "¿?", JOptionPane.YES_NO_OPTION);
 
+                            control.setCont(control.getCont()+1);
+                            control.setFirstWord(control.getAllWord()[control.getCont()]);
+                            palabra.setText(control.getFirstWord());
+
+                            panelNorte.repaint();
+
                             if(option == JOptionPane.YES_OPTION){
                                 // visible y Habilitado
                                 si.setVisible(true);               si.setEnabled(true);
                                 no.setVisible(true);               no.setEnabled(true);
                                 salir.setVisible(true);            salir.setEnabled(true);
+
 
                                 tiempo.start();
                             }else{ System.exit(0); }

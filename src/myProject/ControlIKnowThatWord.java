@@ -18,9 +18,10 @@ public class ControlIKnowThatWord {
     /**
      * Clase IKnowThatWord is the constructor
      */
-    public ControlIKnowThatWord(int level, int score){
+    public ControlIKnowThatWord(int level){
         this.level = level;
         this.score = score;
+        this.success = 0;
         this.time = 0;
         this.cont = 0;
         this.start = true;

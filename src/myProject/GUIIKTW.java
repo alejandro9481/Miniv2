@@ -17,7 +17,7 @@ public class GUIIKTW extends JFrame {
 
     private JPanel panelsur, panelCentro, panelNorte;
     private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2;
-    private JButton si,no,salir;
+    private JButton si, no, salir, ingresar;
 
     private JFrame vista= this;
     private Timer tiempo;
@@ -31,8 +31,10 @@ public class GUIIKTW extends JFrame {
      */
     public GUIIKTW(){
 
-            initGUI();
+            //this.removeAll();
 
+            //initGUI();
+            initDIU(control);
             //Default JFrame configuration
             this.setTitle("I KNOW THAT WORD!! ");
             this.setSize(400,300);
@@ -44,14 +46,21 @@ public class GUIIKTW extends JFrame {
 
 
     }
+    /**
+     * This method is used to set up the default JComponent Configuration,
+     * create Listener and control Objects used for the GUI class
+     */
+    private void initGUI(){
+        ingresar = new JButton("ENTER");
+    }
 
     /**
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
      */
-    private void initGUI() {
+    private void initDIU(ControlIKnowThatWord otro) {
         //definir Window container y layout
-
+        //removeAll();
         //crear el escucha junto al timer
         escucha = new Escucha();
         tiempo = new Timer(1000, escucha);
@@ -68,9 +77,9 @@ public class GUIIKTW extends JFrame {
 
 
         //JLabels
-        puntuacion = new JLabel("       Score:       "+control.getSuccess()*10);
-        nivel = new JLabel("Level:    "+control.getLevel());
-        palabra = new JLabel(control.getFirstWord());
+        puntuacion = new JLabel("       Score:       "+otro.getSuccess()*10);
+        nivel = new JLabel("Level:    "+otro.getLevel());
+        palabra = new JLabel(otro.getFirstWord());
         espacio0 = new JLabel("                                              "+
                                 "                                                 "+
                                 "                                                 "+
@@ -111,7 +120,7 @@ public class GUIIKTW extends JFrame {
         no.setVisible(false);               no.setEnabled(false);
         salir.setVisible(false);            salir.setEnabled(false);
 
-        control.setTime(control.getTime()+4);
+        control.setTime(otro.getTime()+4);
         tiempo.start();
     }
 
@@ -133,7 +142,7 @@ public class GUIIKTW extends JFrame {
             if(option == JOptionPane.YES_OPTION){
                 //Reinicio ronda
                 control = new ControlIKnowThatWord(control.getLevel(), control.getScore());
-                initGUI();
+                initDIU(control);
             }else if(option == JOptionPane.NO_OPTION){
                 //Guardar ronda
                 System.exit(0);
@@ -150,7 +159,11 @@ public class GUIIKTW extends JFrame {
                     "Victory", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
+                control = new ControlIKnowThatWord(control.getLevel()+1, control.getSuccess()*10);
 
+                initDIU(control);
+                revalidate();
+                repaint();
             }else if(option == JOptionPane.NO_OPTION){
                 //Guardar los datos
 
@@ -192,6 +205,7 @@ public class GUIIKTW extends JFrame {
             if(eventAction.getSource() == salir){
                 System.exit(0);
             }else if(eventAction.getSource() == tiempo){
+                si.setEnabled(true); no.setEnabled(true);
                 panelCentro.setBackground(Color.WHITE);
                 //Para saber si es el inicio de la vista o no
                 if(control.isStart()){
@@ -231,7 +245,7 @@ public class GUIIKTW extends JFrame {
                     }
                 }else{
                     control.setTime(control.getTime()+1);
-                    if(control.getTime() < 5){//7
+                    if(control.getTime() < 7){//7
 
                     }else{
                         //ERROR
@@ -259,6 +273,8 @@ public class GUIIKTW extends JFrame {
 
 
             }else if(eventAction.getSource() == si){
+                si.setEnabled(false);no.setEnabled(false);
+
                 if(encontrar(control.getFirstWord())){
                     //Correcto
                     panelCentro.setBackground(Color.GREEN);
@@ -273,6 +289,11 @@ public class GUIIKTW extends JFrame {
                         palabra.setText(control.getFirstWord());
 
                         panelNorte.repaint();
+                    }else{
+                        //Estadisticas de la partida
+                        tiempo.stop();
+                        control.setCont(0);
+                        finalRonda();
                     }
 
                     control.setTime(0);
@@ -288,10 +309,17 @@ public class GUIIKTW extends JFrame {
                         palabra.setText(control.getFirstWord());
 
                         panelNorte.repaint();
+                    }else{
+                        //Estadisticas de la partida
+                        tiempo.stop();
+                        control.setCont(0);
+                        finalRonda();
                     }
                     control.setTime(0);
                 }
             }else if(eventAction.getSource() == no){
+                no.setEnabled(false);si.setEnabled(false);
+
                 if(encontrar(control.getFirstWord())){
                     //ERROR
                     panelCentro.setBackground(Color.RED);
@@ -323,6 +351,20 @@ public class GUIIKTW extends JFrame {
                     }
                     control.setTime(0);
                 }
+            }else if(eventAction.getSource() == ingresar){
+                //Se quita el boton de inicio porque solamente se puede activar una vez por ejecución del programa
+                ingresar.setVisible(false);
+                ingresar.setEnabled(false);
+                reinicio.setVisible(true);
+                //Se retira el JPanel inicial (centralPanel)
+                vista.remove(centralPanel);
+                centralPanel.setEnabled(false);
+                centralPanel.setVisible(false);
+                //Se da inicio al tablero donde el juego interactua con el usuario
+                tableroNew(nuevo);
+
+                pack();//setSize(900,400);
+                vista.setLocationRelativeTo(null);
             }
             revalidate();
             repaint();

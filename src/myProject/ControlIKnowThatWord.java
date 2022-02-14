@@ -52,7 +52,7 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-
+        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         for(int j=0; j<2*learnWord; j++){
             System.out.println(allWord[j]);
         }
@@ -80,10 +80,10 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        /*System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         for(int j=0; j<learnWord; j++){
             System.out.println(trueWord[j]);
-        }*/
+        }
 
         return trueWord;
     }

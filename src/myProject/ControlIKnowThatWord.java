@@ -8,14 +8,24 @@ import java.util.Random;
  * Clase IKnowThatWord is the controller
  */
 public class ControlIKnowThatWord {
-    private int time, level, success, cont, fail, learnWord;
+    private int time, level, success, cont, fail, learnWord, score;
     private String [] trueWord, allWord;
-    private boolean lose, win, start = true;
-    private Word word;
+    private String firstWord;
 
-    public ControlIKnowThatWord(int level){
+    private boolean yesOrNot, start;
+    private Word word = new Word();
+
+    /**
+     * Clase IKnowThatWord is the constructor
+     */
+    public ControlIKnowThatWord(int level, int score){
         this.level = level;
+        this.score = score;
         this.time = 0;
+        this.cont = 0;
+        this.start = true;
+        this.firstWord = "";
+
         levelSize();
 
         this.trueWord = new String[learnWord];
@@ -25,6 +35,9 @@ public class ControlIKnowThatWord {
         trueSelection();
     }
 
+    /**
+     * Method fullSelection is ...
+     */
     public String[] fullSelection(){
         Random random = new Random();
         random.nextInt(word.getRange());
@@ -38,12 +51,18 @@ public class ControlIKnowThatWord {
                     i--;
                 }
             }
-            //System.out.println(allWord[i]);
+        }
+        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        for(int j=0; j<2*learnWord; j++){
+            System.out.println(allWord[j]);
         }
 
         return allWord;
     }
 
+    /**
+     * Method trueSelection is ...
+     */
     public String[] trueSelection(){
         Random random = new Random();
         random.nextInt(2*learnWord);
@@ -60,10 +79,18 @@ public class ControlIKnowThatWord {
                     i--;
                 }
             }
-            //System.out.println(trueWord[i]);
         }
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        for(int j=0; j<learnWord; j++){
+            System.out.println(trueWord[j]);
+        }
+
         return trueWord;
     }
+
+    /**
+     * Method levelSize is ...
+     */
     public int levelSize(){
         int five = 5;
 
@@ -79,6 +106,9 @@ public class ControlIKnowThatWord {
         }
     }
 
+    /**
+     * Method message is ...
+     */
     public int message(){
         if(level == 1 || level == 2){
             return 70;
@@ -97,6 +127,9 @@ public class ControlIKnowThatWord {
         }
     }
 
+    /**
+     * Method verifyAnswer is the answers requiere to the next level
+     */
     public int verifyAnswer(){
         if(level == 3){
             return 38;
@@ -108,6 +141,14 @@ public class ControlIKnowThatWord {
             return 200;
         }
     }
+
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
+
+    public String getFirstWord() { return firstWord; }
+
+    public void setFirstWord(String firstWord) { this.firstWord = firstWord; }
 
     public int getLearnWord() { levelSize();return learnWord;}
 
@@ -141,13 +182,9 @@ public class ControlIKnowThatWord {
 
     public void setAllWord(String[] allWord) { this.allWord = allWord; }
 
-    public boolean isLose() { return lose; }
+    public boolean isYesOrNot() { return yesOrNot; }
 
-    public void setLose(boolean lose) { this.lose = lose; }
-
-    public boolean isWin() { return win; }
-
-    public void setWin(boolean win) { this.win = win; }
+    public void setYesOrNot(boolean yesOrNot) { this.yesOrNot = yesOrNot; }
 
     public boolean isStart() { return start; }
 

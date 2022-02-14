@@ -15,10 +15,10 @@ import java.text.DecimalFormat;
 
 public class GUIIKTW extends JFrame {
 
-    private JPanel panelsur, panelCentro, panelNorte;
+    private JPanel panelsur, panelCentro, panelNorte, panelUsuarioN, panelUsuarioS;
     private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2;
     private JButton si, no, salir, ingresar;
-
+    private JTextField ingresarNombre;
     private JFrame vista= this;
     private Timer tiempo;
     private Escucha escucha;
@@ -32,10 +32,11 @@ public class GUIIKTW extends JFrame {
     public GUIIKTW(){
 
             //this.removeAll();
-
-            //initGUI();
-            initDIU(control);
+            escucha = new Escucha();
+            initGUI();
+            //initDIU(control);
             //Default JFrame configuration
+
             this.setTitle("I KNOW THAT WORD!! ");
             this.setSize(400,300);
             this.pack();
@@ -45,6 +46,7 @@ public class GUIIKTW extends JFrame {
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
+
     }
     /**
      * This method is used to set up the default JComponent Configuration,
@@ -52,6 +54,18 @@ public class GUIIKTW extends JFrame {
      */
     private void initGUI(){
         ingresar = new JButton("ENTER");
+        ingresarNombre = new JTextField(20);
+        panelUsuarioN = new JPanel();
+        panelUsuarioS = new JPanel();
+        panelUsuarioN.add(ingresarNombre);
+        panelUsuarioS.add(ingresar);
+        ingresar.addActionListener(escucha);
+        this.add(panelUsuarioN,BorderLayout.NORTH);
+        this.add(panelUsuarioS,BorderLayout.SOUTH);
+        panelUsuarioN.setPreferredSize(new Dimension(350,60));
+        panelUsuarioN.setBorder(BorderFactory.createTitledBorder("Enter your username (Example: alejandro)"));
+        panelUsuarioS.setPreferredSize(new Dimension(350,40));
+
     }
 
     /**
@@ -62,7 +76,7 @@ public class GUIIKTW extends JFrame {
         //definir Window container y layout
         //removeAll();
         //crear el escucha junto al timer
-        escucha = new Escucha();
+
         tiempo = new Timer(1000, escucha);
         vista =this;
 
@@ -394,14 +408,13 @@ public class GUIIKTW extends JFrame {
                 //Se quita el boton de inicio porque solamente se puede activar una vez por ejecución del programa
                 ingresar.setVisible(false);
                 ingresar.setEnabled(false);
-                /*reinicio.setVisible(true);
-                //Se retira el JPanel inicial (centralPanel)
-                vista.remove(centralPanel);
-                centralPanel.setEnabled(false);
-                centralPanel.setVisible(false);
-                //Se da inicio al tablero donde el juego interactua con el usuario
-                tableroNew(nuevo);*/
-
+                panelUsuarioN.setVisible(false);
+                panelUsuarioN.setEnabled(false);
+                panelUsuarioS.setVisible(false);
+                panelUsuarioS.setEnabled(false);
+                vista.remove(panelUsuarioN);
+                vista.remove(panelUsuarioS);
+                initDIU(control);
                 pack();//setSize(900,400);
                 vista.setLocationRelativeTo(null);
             }

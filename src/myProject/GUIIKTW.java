@@ -96,7 +96,6 @@ public class GUIIKTW extends JFrame {
         panelNorte.add(espacio0);
         panelNorte.add(palabra);
 
-        //panelNorte.add(palabra,BorderLayout.SOUTH);
         this.add(panelNorte,BorderLayout.NORTH);
 
         //centro
@@ -141,10 +140,15 @@ public class GUIIKTW extends JFrame {
                     "Defeat ", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //Reinicio ronda
+                vaciarDIU();
                 control = new ControlIKnowThatWord(control.getLevel(), control.getScore());
                 initDIU(control);
+                revalidate();
+                repaint();
             }else if(option == JOptionPane.NO_OPTION){
                 //Guardar ronda
+
+
                 System.exit(0);
             }
         }else{
@@ -159,13 +163,15 @@ public class GUIIKTW extends JFrame {
                     "Victory", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
+                vaciarDIU();
                 control = new ControlIKnowThatWord(control.getLevel()+1, control.getSuccess()*10);
-
                 initDIU(control);
+
                 revalidate();
                 repaint();
             }else if(option == JOptionPane.NO_OPTION){
                 //Guardar los datos
+
 
                 System.exit(0);
             }
@@ -182,6 +188,21 @@ public class GUIIKTW extends JFrame {
             }
         }
         return control.isYesOrNot();
+    }
+
+    public void vaciarDIU(){
+        panelNorte.setEnabled(false);
+        panelCentro.setEnabled(false);
+        panelsur.setEnabled(false);
+
+        panelNorte.setVisible(false);
+        panelCentro.setVisible(false);
+        panelsur.setVisible(false);
+
+        panelNorte.removeAll();
+        panelCentro.removeAll();
+        panelsur.removeAll();
+
     }
 
     /**
@@ -332,6 +353,11 @@ public class GUIIKTW extends JFrame {
                         palabra.setText(control.getFirstWord());
 
                         panelNorte.repaint();
+                    }else{
+                        //Estadisticas de la partida
+                        tiempo.stop();
+                        control.setCont(0);
+                        finalRonda();
                     }
                     control.setTime(0);
                 }else{
@@ -348,6 +374,11 @@ public class GUIIKTW extends JFrame {
                         palabra.setText(control.getFirstWord());
 
                         panelNorte.repaint();
+                    }else{
+                        //Estadisticas de la partida
+                        tiempo.stop();
+                        control.setCont(0);
+                        finalRonda();
                     }
                     control.setTime(0);
                 }
@@ -355,13 +386,13 @@ public class GUIIKTW extends JFrame {
                 //Se quita el boton de inicio porque solamente se puede activar una vez por ejecución del programa
                 ingresar.setVisible(false);
                 ingresar.setEnabled(false);
-                reinicio.setVisible(true);
+                /*reinicio.setVisible(true);
                 //Se retira el JPanel inicial (centralPanel)
                 vista.remove(centralPanel);
                 centralPanel.setEnabled(false);
                 centralPanel.setVisible(false);
                 //Se da inicio al tablero donde el juego interactua con el usuario
-                tableroNew(nuevo);
+                tableroNew(nuevo);*/
 
                 pack();//setSize(900,400);
                 vista.setLocationRelativeTo(null);

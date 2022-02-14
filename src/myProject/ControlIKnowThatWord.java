@@ -8,22 +8,24 @@ import java.util.Random;
  * Clase IKnowThatWord is the controller
  */
 public class ControlIKnowThatWord {
-    private int time, level, success, cont, fail, learnWord;
+    private int time, level, success, cont, fail, learnWord, score;
     private String [] trueWord, allWord;
     private String firstWord;
 
-    private boolean lose, win, start;
+    private boolean yesOrNot, start;
     private Word word = new Word();
 
     /**
      * Clase IKnowThatWord is the constructor
      */
-    public ControlIKnowThatWord(int level){
+    public ControlIKnowThatWord(int level, int score){
         this.level = level;
+        this.score = score;
         this.time = 0;
         this.cont = 0;
         this.start = true;
         this.firstWord = "";
+
         levelSize();
 
         this.trueWord = new String[learnWord];
@@ -50,6 +52,11 @@ public class ControlIKnowThatWord {
                 }
             }
         }
+
+        for(int j=0; j<2*learnWord; j++){
+            System.out.println(allWord[j]);
+        }
+
         return allWord;
     }
 
@@ -73,9 +80,11 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        /*System.out.println(trueWord[0]);
-        System.out.println(trueWord[1]);
-        System.out.println(trueWord[2]);*/
+        /*System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+        for(int j=0; j<learnWord; j++){
+            System.out.println(trueWord[j]);
+        }*/
+
         return trueWord;
     }
 
@@ -133,6 +142,10 @@ public class ControlIKnowThatWord {
         }
     }
 
+    public int getScore() { return score; }
+
+    public void setScore(int score) { this.score = score; }
+
     public String getFirstWord() { return firstWord; }
 
     public void setFirstWord(String firstWord) { this.firstWord = firstWord; }
@@ -169,13 +182,9 @@ public class ControlIKnowThatWord {
 
     public void setAllWord(String[] allWord) { this.allWord = allWord; }
 
-    public boolean isLose() { return lose; }
+    public boolean isYesOrNot() { return yesOrNot; }
 
-    public void setLose(boolean lose) { this.lose = lose; }
-
-    public boolean isWin() { return win; }
-
-    public void setWin(boolean win) { this.win = win; }
+    public void setYesOrNot(boolean yesOrNot) { this.yesOrNot = yesOrNot; }
 
     public boolean isStart() { return start; }
 

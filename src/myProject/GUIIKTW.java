@@ -1,13 +1,9 @@
 package myProject;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
@@ -28,7 +24,7 @@ public class GUIIKTW extends JFrame {
     private Escucha escucha;
 
     private DecimalFormat df = new DecimalFormat("#.00");
-    private ControlIKnowThatWord control = new ControlIKnowThatWord(1);
+    private ControlIKnowThatWord control = new ControlIKnowThatWord(1,0);
 
     /**
      * Constructor of GUI class
@@ -38,8 +34,8 @@ public class GUIIKTW extends JFrame {
             initGUI();
 
             //Default JFrame configuration
-            this.setTitle("I KNOW THAT WORD!!");
-            //this.setSize(200,100);
+            this.setTitle("I KNOW THAT WORD!! ");
+            this.setSize(400,300);
             this.pack();
             this.setResizable(true);
             this.setVisible(true);
@@ -66,30 +62,27 @@ public class GUIIKTW extends JFrame {
         no = new JButton("NOT");                no.addActionListener(escucha);
         salir = new JButton("EXIT");            salir.addActionListener(escucha);
 
-        //No visible e inhabilitado
-        si.setVisible(false);               si.setEnabled(false);
-        no.setVisible(false);               no.setEnabled(false);
-        salir.setVisible(false);            salir.setEnabled(false);
-
         //JPanels
         panelsur = new JPanel();    panelCentro = new JPanel();
         panelNorte = new JPanel();
 
 
         //JLabels
-        puntuacion = new JLabel("Score:");
-        nivel = new JLabel("Level: ");
+        puntuacion = new JLabel("       Score:       "+control.getSuccess()*10);
+        nivel = new JLabel("Level:    "+control.getLevel());
         palabra = new JLabel(control.getFirstWord());
         espacio0 = new JLabel("                                              "+
-                "                                                                            ");
-        espacio1 = new JLabel("                                      ");
+                                "                                                 "+
+                                "                                                 "+
+                                "                                                 ");
+        espacio1 = new JLabel("                                               "+
+                                "            ");
         espacio2 = new JLabel("                                              "+
-                                    "                                             "+
-                                    "                  ");
+                                "                                 ");
 
 
         //Norte
-        panelNorte.setPreferredSize(new Dimension(100,100));
+        panelNorte.setPreferredSize(new Dimension(500,100));
         panelNorte.setBorder(BorderFactory.createTitledBorder("Word's Zone "));
         panelNorte.add(espacio0);
         panelNorte.add(palabra);
@@ -106,32 +99,41 @@ public class GUIIKTW extends JFrame {
 
         //sur
         panelsur.setPreferredSize(new Dimension(400,40));
+
+        panelsur.add(nivel);
+        panelsur.add(puntuacion);
+
         panelsur.add(espacio2);
         panelsur.add(salir);
         this.add(panelsur,BorderLayout.SOUTH);
+
+        //No visible e inhabilitado
+        si.setVisible(false);               si.setEnabled(false);
+        no.setVisible(false);               no.setEnabled(false);
+        salir.setVisible(false);            salir.setEnabled(false);
 
         control.setTime(control.getTime()+3);
         tiempo.start();
     }
 
     public void finalRonda(){
-        double PorcentajeAciertos = (100/2*control.getLearnWord())*control.getSuccess();
+        double porcentajeAciertos = (100/(2*control.getLearnWord()))*control.getSuccess();
 
         if(control.getFail() >= 10){
-            int option = JOptionPane.showConfirmDialog(panelCentro, "Perdiste!!\n"+
+            int option = JOptionPane.showConfirmDialog(panelCentro, "You Lose!!\n"+
                         " End of level \n"+
                         " No has superado el nivel. \n"+
                         " Necesitas un "+control.message()+
                         "% de aciertos para pasar al siguiente nivel. \n"+
                         " Aciertos:  "+control.getSuccess()+" \n"+
-                        " Porcentaje de aciertos: "+df.format(PorcentajeAciertos)+"% \n"+
+                        " Porcentaje de aciertos: "+df.format(porcentajeAciertos)+"% \n"+
                         " puntuacion: "+control.getSuccess()*10+" \n"+
                         "¿Quieres jugar la misma ronda?",
 
                     "Perdiste", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
-
+                control = new ControlIKnowThatWord(control.getLevel()+1, control.getSuccess()*10);
             }else if(option == JOptionPane.NO_OPTION){
                 System.exit(0);
             }
@@ -140,7 +142,8 @@ public class GUIIKTW extends JFrame {
                             " End of level \n"+
                             " You have passed to the next level. \n"+
                             " Right guess:  "+control.getSuccess()+" \n"+
-                            " Right guess percentage: "+df.format(PorcentajeAciertos)+"% \n"+
+                            //" Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
+                            " Right guess percentage: "+porcentajeAciertos+"% \n"+
                             " Score: "+control.getSuccess()*10+" \n"+
                             "¿Quieres jugar otra ronda?",
 
@@ -154,6 +157,18 @@ public class GUIIKTW extends JFrame {
                 System.exit(0);
             }
         }
+    }
+
+    public boolean encontrar(String palabra){
+        for(int i=0;i<control.getTrueWord().length;i++){
+            if(palabra == control.getTrueWord()[i]){
+                control.setYesOrNot(true);
+                i += control.getTrueWord().length;
+            }else{
+                control.setYesOrNot(false);
+            }
+        }
+        return control.isYesOrNot();
     }
 
     /**
@@ -177,7 +192,7 @@ public class GUIIKTW extends JFrame {
             if(eventAction.getSource() == salir){
                 System.exit(0);
             }else if(eventAction.getSource() == tiempo){
-
+                panelCentro.setBackground(Color.WHITE);
                 //Para saber si es el inicio de la vista o no
                 if(control.isStart()){
                 //System.out.println("aquí estoy");
@@ -196,7 +211,7 @@ public class GUIIKTW extends JFrame {
                             panelNorte.repaint();
                         }else{
                             control.setStart(false);
-                            control.setCont(0);
+                            control.setCont(-1);
                             tiempo.stop();
 
                             int option = JOptionPane.showConfirmDialog(panelCentro,
@@ -211,39 +226,94 @@ public class GUIIKTW extends JFrame {
                                 salir.setVisible(true);            salir.setEnabled(true);
 
                                 tiempo.start();
-                            }else{
-                                System.exit(0);
-                            }
+                            }else{ System.exit(0); }
                         }
                     }
                 }else{
                     control.setTime(control.getTime()+1);
-                    if(control.getTime() < 1){//7
+                    if(control.getTime() < 5){//7
 
                     }else{
-                        control.setTime(0);
+                        //ERROR
+                        panelCentro.setBackground(Color.RED);
+                        control.setFail(control.getFail()+1);
 
                         //Condicional para que muestre todas las palabras 
-                        if(control.getAllWord().length > control.getCont()){
-                            control.setFirstWord(control.getTrueWord()[control.getCont()]);
+                        if(control.getAllWord().length > control.getCont()+1){
                             control.setCont(control.getCont()+1);
+                            control.setFirstWord(control.getAllWord()[control.getCont()]);
                             palabra.setText(control.getFirstWord());
+
 
                             panelNorte.repaint();
 
                         }else{
+                            //Estadisticas de la partida
+                            tiempo.stop();
                             control.setCont(0);
+                            finalRonda();
                         }
+                        control.setTime(0);
                     }
                 }
 
 
             }else if(eventAction.getSource() == si){
+                if(encontrar(control.getFirstWord())){
+                    //Correcto
+                    panelCentro.setBackground(Color.GREEN);
+                    control.setSuccess(control.getSuccess()+1);
+                    puntuacion.setText("       Score:       "+control.getSuccess()*10);
+                    panelsur.repaint();
 
+                    //Cambio de palabra
+                    control.setCont(control.getCont()+1);
+                    control.setFirstWord(control.getAllWord()[control.getCont()]);
+                    palabra.setText(control.getFirstWord());
+
+                    panelNorte.repaint();
+                    control.setTime(0);
+                }else{
+                    //ERROR
+                    panelCentro.setBackground(Color.RED);
+                    control.setFail(control.getFail()+1);
+
+                    //Cambio de palabra
+                    control.setCont(control.getCont()+1);
+                    control.setFirstWord(control.getAllWord()[control.getCont()]);
+                    palabra.setText(control.getFirstWord());
+
+                    panelNorte.repaint();
+                    control.setTime(0);
+                }
             }else if(eventAction.getSource() == no){
+                if(encontrar(control.getFirstWord())){
+                    //ERROR
+                    panelCentro.setBackground(Color.RED);
+                    control.setFail(control.getFail()+1);
 
-            }else if(eventAction.getSource() == salir){
+                    //Cambio de palabra
+                    control.setCont(control.getCont()+1);
+                    control.setFirstWord(control.getAllWord()[control.getCont()]);
+                    palabra.setText(control.getFirstWord());
 
+                    panelNorte.repaint();
+                    control.setTime(0);
+                }else{
+                    //Correcto
+                    panelCentro.setBackground(Color.GREEN);
+                    control.setSuccess(control.getSuccess()+1);
+                    puntuacion.setText("       Score:       "+control.getSuccess()*10);
+                    panelsur.repaint();
+
+                    //Cambio de palabra
+                    control.setCont(control.getCont()+1);
+                    control.setFirstWord(control.getAllWord()[control.getCont()]);
+                    palabra.setText(control.getFirstWord());
+
+                    panelNorte.repaint();
+                    control.setTime(0);
+                }
             }
             revalidate();
             repaint();

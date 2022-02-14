@@ -128,7 +128,7 @@ public class ControlIKnowThatWord {
     }
 
     /**
-     * Method verifyAnswer is ...
+     * Method verifyAnswer is the answers requiere to the next level
      */
     public int verifyAnswer(){
         if(level == 3){

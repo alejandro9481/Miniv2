@@ -102,7 +102,6 @@ public class GUIIKTW extends JFrame {
 
         panelsur.add(nivel);
         panelsur.add(puntuacion);
-
         panelsur.add(espacio2);
         panelsur.add(salir);
         this.add(panelsur,BorderLayout.SOUTH);
@@ -112,42 +111,43 @@ public class GUIIKTW extends JFrame {
         no.setVisible(false);               no.setEnabled(false);
         salir.setVisible(false);            salir.setEnabled(false);
 
-        control.setTime(control.getTime()+3);
+        control.setTime(control.getTime()+4);
         tiempo.start();
     }
 
     public void finalRonda(){
         double porcentajeAciertos = (100/(2*control.getLearnWord()))*control.getSuccess();
 
-        if(control.getFail() >= 10){
+        if(control.getSuccess() < control.verifyAnswer()){
             int option = JOptionPane.showConfirmDialog(panelCentro, "You Lose!!\n"+
                         " End of level \n"+
-                        " No has superado el nivel. \n"+
-                        " Necesitas un "+control.message()+
-                        "% de aciertos para pasar al siguiente nivel. \n"+
-                        " Aciertos:  "+control.getSuccess()+" \n"+
-                        " Porcentaje de aciertos: "+df.format(porcentajeAciertos)+"% \n"+
-                        " puntuacion: "+control.getSuccess()*10+" \n"+
-                        "¿Quieres jugar la misma ronda?",
+                        " You have not passed the level. \n"+
+                        " You need a "+control.message()+
+                        "% of right guess to go to the next level. \n"+
+                        " Right guess:  "+control.getSuccess()+" \n"+
+                        " Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
+                        " Score: "+control.getSuccess()*10+" \n"+
+                        " Do you want to play the same round?",
 
-                    "Perdiste", JOptionPane.YES_NO_OPTION);
+                    "Defeat ", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
-                //nueva ronda
-                control = new ControlIKnowThatWord(control.getLevel()+1, control.getSuccess()*10);
+                //Reinicio ronda
+                control = new ControlIKnowThatWord(control.getLevel(), control.getScore());
+                initGUI();
             }else if(option == JOptionPane.NO_OPTION){
+                //Guardar ronda
                 System.exit(0);
             }
         }else{
-            int option = JOptionPane.showConfirmDialog(panelCentro, "Ganaste!!\n"+
+            int option = JOptionPane.showConfirmDialog(panelCentro, "you win!!\n"+
                             " End of level \n"+
                             " You have passed to the next level. \n"+
                             " Right guess:  "+control.getSuccess()+" \n"+
-                            //" Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
-                            " Right guess percentage: "+porcentajeAciertos+"% \n"+
+                            " Right guess percentage: "+df.format(porcentajeAciertos)+"% \n"+
                             " Score: "+control.getSuccess()*10+" \n"+
-                            "¿Quieres jugar otra ronda?",
+                            " Do you want to play another round ?",
 
-                    "Ganaste", JOptionPane.YES_NO_OPTION);
+                    "Victory", JOptionPane.YES_NO_OPTION);
             if(option == JOptionPane.YES_OPTION){
                 //nueva ronda
 
@@ -215,7 +215,7 @@ public class GUIIKTW extends JFrame {
                             tiempo.stop();
 
                             int option = JOptionPane.showConfirmDialog(panelCentro,
-                                    "Desea continuar?",
+                                    "Do you wish continue?",
 
                                     "¿?", JOptionPane.YES_NO_OPTION);
 
@@ -267,11 +267,14 @@ public class GUIIKTW extends JFrame {
                     panelsur.repaint();
 
                     //Cambio de palabra
-                    control.setCont(control.getCont()+1);
-                    control.setFirstWord(control.getAllWord()[control.getCont()]);
-                    palabra.setText(control.getFirstWord());
+                    if(control.getAllWord().length > control.getCont()+1){
+                        control.setCont(control.getCont()+1);
+                        control.setFirstWord(control.getAllWord()[control.getCont()]);
+                        palabra.setText(control.getFirstWord());
 
-                    panelNorte.repaint();
+                        panelNorte.repaint();
+                    }
+
                     control.setTime(0);
                 }else{
                     //ERROR
@@ -279,11 +282,13 @@ public class GUIIKTW extends JFrame {
                     control.setFail(control.getFail()+1);
 
                     //Cambio de palabra
-                    control.setCont(control.getCont()+1);
-                    control.setFirstWord(control.getAllWord()[control.getCont()]);
-                    palabra.setText(control.getFirstWord());
+                    if(control.getAllWord().length > control.getCont()+1){
+                        control.setCont(control.getCont()+1);
+                        control.setFirstWord(control.getAllWord()[control.getCont()]);
+                        palabra.setText(control.getFirstWord());
 
-                    panelNorte.repaint();
+                        panelNorte.repaint();
+                    }
                     control.setTime(0);
                 }
             }else if(eventAction.getSource() == no){
@@ -293,11 +298,13 @@ public class GUIIKTW extends JFrame {
                     control.setFail(control.getFail()+1);
 
                     //Cambio de palabra
-                    control.setCont(control.getCont()+1);
-                    control.setFirstWord(control.getAllWord()[control.getCont()]);
-                    palabra.setText(control.getFirstWord());
+                    if(control.getAllWord().length > control.getCont()+1){
+                        control.setCont(control.getCont()+1);
+                        control.setFirstWord(control.getAllWord()[control.getCont()]);
+                        palabra.setText(control.getFirstWord());
 
-                    panelNorte.repaint();
+                        panelNorte.repaint();
+                    }
                     control.setTime(0);
                 }else{
                     //Correcto
@@ -307,11 +314,13 @@ public class GUIIKTW extends JFrame {
                     panelsur.repaint();
 
                     //Cambio de palabra
-                    control.setCont(control.getCont()+1);
-                    control.setFirstWord(control.getAllWord()[control.getCont()]);
-                    palabra.setText(control.getFirstWord());
+                    if(control.getAllWord().length > control.getCont()+1){
+                        control.setCont(control.getCont()+1);
+                        control.setFirstWord(control.getAllWord()[control.getCont()]);
+                        palabra.setText(control.getFirstWord());
 
-                    panelNorte.repaint();
+                        panelNorte.repaint();
+                    }
                     control.setTime(0);
                 }
             }

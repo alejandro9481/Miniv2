@@ -36,6 +36,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method fullSelection is for Save all words per level
+     * @return all words
      */
     public String[] fullSelection(){
         Random random = new Random();
@@ -51,16 +52,17 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        //Pruebas
+        /*System.out.println("Palabras completas-Palabras completas-Palabras completas");
         for(int j=0; j<2*learnWord; j++){
             System.out.println(allWord[j]);
-        }
-
+        }*/
         return allWord;
     }
 
     /**
      * Method trueSelection is for save all true words
+     * @return words true
      */
     public String[] trueSelection(){
         Random random = new Random();
@@ -73,21 +75,25 @@ public class ControlIKnowThatWord {
             random1.nextInt(2*learnWord);
 
             trueWord[i] = allWord[random1.nextInt(2*learnWord)];
+
             for(int j=0; j<i; j++){
                 if(trueWord[i] == trueWord[j]){
                     i--;
                 }
             }
         }
+        //Pruebas
+        /*System.out.println("Palabras verdaderas- Palabras verdaderas - Palabras verdaderas");
         for(int j=0; j<learnWord; j++){
             System.out.println(trueWord[j]);
-        }
+        }*/
 
         return trueWord;
     }
 
     /**
      * Method levelSize is for Calculate the level size
+     * @return the level size
      */
     public int levelSize(){
         int five = 5;
@@ -106,6 +112,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method message is for calculate the percent of hits to beat the level
+     * @return the num at percent of the level
      */
     public int message(){
         if(level == 1 || level == 2){
@@ -127,6 +134,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method verifyAnswer is the answers requiere to the next level
+     * @return the num of answers requiere to the next level
      */
     public int verifyAnswer(){
         if(level == 3){

@@ -4,13 +4,16 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class FileManager {
-    public static  final String PATH = "src/files/diccionario.txt";
-    private FileReader fileReader;
-    private BufferedReader input;
+    public static  final String PATH = "src/files/word.txt";
+    public static  final String PATH2 = "src/files/datos.txt";
+    private FileReader fileReader , fileReaderUsuario;
+    private BufferedReader input , inputUsuario;
     private FileWriter fileWriter;
     private BufferedWriter output;
 
-
+    /**
+     * Method LecturaUsuario read word data file
+     */
     public ArrayList<String> lecturaFile() {
         ArrayList<String> frases = new ArrayList<String>();
         try {
@@ -34,10 +37,38 @@ public class FileManager {
         }
         return frases;
     }
-
+    /**
+     * Method LecturaUsuario read users data file
+     */
+    public ArrayList<String> LecturaUsuario() {
+        ArrayList<String> datos = new ArrayList<String>();
+        try {
+            fileReaderUsuario = new FileReader(PATH2);
+            inputUsuario = new BufferedReader(fileReaderUsuario);
+            String line = inputUsuario.readLine();
+            while(line!=null){
+                datos.add(line);
+                line=inputUsuario.readLine();
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                inputUsuario.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return datos;
+    }
+    /**
+     * Method escribirTexto Write text in a archive
+     */
     public void escribirTexto(String linea){
         try {
-            fileWriter = new FileWriter("src/myProject/files/fileText.txt",true);
+            fileWriter = new FileWriter("src/files/datos.txt",true);
             output = new BufferedWriter(fileWriter);
             output.write(linea);
             output.newLine();

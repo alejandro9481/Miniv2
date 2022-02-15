@@ -72,6 +72,7 @@ public class GUIIKTW extends JFrame {
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
      * This is used for the game interface
+     * @param otro
      */
     private void initDIU(ControlIKnowThatWord otro) {
         //definir Window container y layout
@@ -163,7 +164,13 @@ public class GUIIKTW extends JFrame {
                 revalidate();
                 repaint();
             }else if(option == JOptionPane.NO_OPTION){
+                //Guardar los datos
+                int a = control.getWord().ultimoNombre(control.getName());
+                int b = control.getWord().getLevel(a);
 
+                ControlIKnowThatWord controlNew = new ControlIKnowThatWord(b, control.getName());
+                c0ntrol = controlNew;
+                initDIU(c0ntrol);
 
                 System.exit(0);
             }
@@ -220,7 +227,6 @@ public class GUIIKTW extends JFrame {
     /**
      * This method empty our GUI of the game
      */
-
     public void vaciarDIU(){
         panelNorte.setEnabled(false);
         panelCentro.setEnabled(false);
@@ -263,7 +269,7 @@ public class GUIIKTW extends JFrame {
                 if(c0ntrol.isStart()){
                 //System.out.println("aquí estoy");
                     c0ntrol.setTime(c0ntrol.getTime()+1);
-                    if(c0ntrol.getTime() < 1){//5
+                    if(c0ntrol.getTime() < 5){//5 segundos
 
                     }else{
                         //Palabra
@@ -305,7 +311,7 @@ public class GUIIKTW extends JFrame {
                     }
                 }else{
                     c0ntrol.setTime(c0ntrol.getTime()+1);
-                    if(c0ntrol.getTime() < 7){//7
+                    if(c0ntrol.getTime() < 7){//7 segundos
 
                     }else{
                         //ERROR
@@ -320,7 +326,6 @@ public class GUIIKTW extends JFrame {
 
 
                             panelNorte.repaint();
-
                         }else{
                             //Estadisticas de la partida
                             tiempo.stop();
@@ -330,8 +335,6 @@ public class GUIIKTW extends JFrame {
                         c0ntrol.setTime(0);
                     }
                 }
-
-
             }else if(eventAction.getSource() == si){
                 si.setEnabled(false);no.setEnabled(false);
 

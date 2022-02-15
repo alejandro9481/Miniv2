@@ -51,11 +51,11 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        //Pruebas
+        /*System.out.println("Palabras completas-Palabras completas-Palabras completas");
         for(int j=0; j<2*learnWord; j++){
             System.out.println(allWord[j]);
-        }
-
+        }*/
         return allWord;
     }
 
@@ -73,15 +73,18 @@ public class ControlIKnowThatWord {
             random1.nextInt(2*learnWord);
 
             trueWord[i] = allWord[random1.nextInt(2*learnWord)];
+
             for(int j=0; j<i; j++){
                 if(trueWord[i] == trueWord[j]){
                     i--;
                 }
             }
         }
+        //Pruebas
+        /*System.out.println("Palabras verdaderas- Palabras verdaderas - Palabras verdaderas");
         for(int j=0; j<learnWord; j++){
             System.out.println(trueWord[j]);
-        }
+        }*/
 
         return trueWord;
     }

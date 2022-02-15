@@ -57,6 +57,7 @@ public class Word {
     }
     /**
      * Method setLevelName set the users name
+     * @return
      */
     public String setLevelName(String nombre, int level) {
         String nuevoTexto = nombre + ";" + level;

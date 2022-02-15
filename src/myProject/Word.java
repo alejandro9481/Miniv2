@@ -47,16 +47,22 @@ public class Word {
         System.out.println(dig);
         return dig;
     }
+
     /**
      * Method setLevel set the users level
+     * @param n this is the name of the player
+     * @param level this is the level of the player
      */
     public void setLevel(int n, int level) {
         char c = usuarios.get(n).charAt(usuarios.get(n).length()-1);
         String nuevoTexto = getNombre(n) + ";" + level;
         fileManager.escribirTexto(nuevoTexto);
     }
+
     /**
      * Method setLevelName set the users name
+     * @param nombre this is the name of the player
+     * @param level this is the level of the player
      * @return
      */
     public String setLevelName(String nombre, int level) {
@@ -66,7 +72,7 @@ public class Word {
     }
 
     /**
-     *
+     * Method ultimoNombre is to find the last name in the text file
      * @param nombre is the name I want to search
      * @return the last name in the file of users
      */
@@ -85,7 +91,7 @@ public class Word {
     }
 
     /**
-     *
+     * Method getNombre is to find the user name
      * @param n is the line in the users file
      * @return the name of the user
      */
@@ -102,7 +108,7 @@ public class Word {
     }
 
     /**
-     *
+     * Method getUsuario is to find the User
      * @param nuevo is the user name
      * @return if a user is new in the users file
      */
@@ -119,7 +125,7 @@ public class Word {
     }
 
     /**
-     *
+     *  Method getFrase is to find the sentence in the text file
      * @param number is the position on the file
      * @return the phrase of a specific position
      */

@@ -11,7 +11,9 @@ public class FileManager {
     private FileWriter fileWriter;
     private BufferedWriter output;
 
-
+    /**
+     * Method LecturaUsuario read word data file
+     */
     public ArrayList<String> lecturaFile() {
         ArrayList<String> frases = new ArrayList<String>();
         try {
@@ -35,7 +37,9 @@ public class FileManager {
         }
         return frases;
     }
-
+    /**
+     * Method LecturaUsuario read users data file
+     */
     public ArrayList<String> LecturaUsuario() {
         ArrayList<String> datos = new ArrayList<String>();
         try {
@@ -59,7 +63,9 @@ public class FileManager {
         }
         return datos;
     }
-
+    /**
+     * Method escribirTexto Write text in a archive
+     */
     public void escribirTexto(String linea){
         try {
             fileWriter = new FileWriter("src/files/datos.txt",true);

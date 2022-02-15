@@ -7,10 +7,10 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 /**
- * Class GUIIKTW is the V
+ * Class GUIIKTW is the main GUI for the game I Know That Word
  * @author Alejandro Villamil
  * @author Javier Castrillon
- * @version v.1.0.0 date 07/02/2022
+ * @version v.2.0.0 date 14/02/2022
  */
 
 public class GUIIKTW extends JFrame {
@@ -22,7 +22,6 @@ public class GUIIKTW extends JFrame {
     private JFrame vista = this;
     private Timer tiempo;
     private Escucha escucha;
-
     private DecimalFormat df = new DecimalFormat("#.00");
     private ControlIKnowThatWord control = new ControlIKnowThatWord(1,"");
     private ControlIKnowThatWord c0ntrol = null;
@@ -34,51 +33,50 @@ public class GUIIKTW extends JFrame {
 
             escucha = new Escucha();
             initGUI();
-
-            //Default JFrame configuration
-
             this.setTitle("I KNOW THAT WORD!! ");
-            //this.setSize(400,300);
             this.pack();
             this.setResizable(true);
             this.setVisible(true);
             this.setLocationRelativeTo(null);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
-
     }
     /**
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
+     * This GUI is used for the login interface
      */
     private void initGUI(){
+
+        //Boton y campo
         ingresar = new JButton("ENTER");
         ingresarNombre = new JTextField(20);
+
+        //Paneles
         panelUsuarioN = new JPanel();
         panelUsuarioS = new JPanel();
         panelUsuarioN.add(ingresarNombre);
         panelUsuarioS.add(ingresar);
-        ingresar.addActionListener(escucha);
-
         panelUsuarioN.setPreferredSize(new Dimension(350,60));
         panelUsuarioN.setBorder(BorderFactory.createTitledBorder("Enter your username (Example: alejandro)"));
         panelUsuarioS.setPreferredSize(new Dimension(350,40));
-
         this.add(panelUsuarioN,BorderLayout.NORTH);
         this.add(panelUsuarioS,BorderLayout.SOUTH);
+
+        //Escucha
+        ingresar.addActionListener(escucha);
 
     }
 
     /**
      * This method is used to set up the default JComponent Configuration,
      * create Listener and control Objects used for the GUI class
+     * This is used for the game interface
      */
     private void initDIU(ControlIKnowThatWord otro) {
         //definir Window container y layout
-        //removeAll();
-        //crear el escucha junto al timer
 
+        //crear el timer
         tiempo = new Timer(1000, escucha);
         vista =this;
 
@@ -138,7 +136,9 @@ public class GUIIKTW extends JFrame {
         otro.setTime(otro.getTime()+4);
         tiempo.start();
     }
-
+    /**
+     * This method is used to end the game round and check if you win or lose the level
+     * */
     public void finalRonda(){
         double porcentajeAciertos = (100/(2* c0ntrol.getLearnWord()))* c0ntrol.getSuccess();
 
@@ -200,6 +200,11 @@ public class GUIIKTW extends JFrame {
         }
     }
 
+    /**
+     * This method tells us if it found the word in the list of correct words
+     * @param palabra
+     * @return true if found the word and else false if isn´t
+     */
     public boolean encontrar(String palabra){
         for(int i = 0; i< c0ntrol.getTrueWord().length; i++){
             if(palabra == c0ntrol.getTrueWord()[i]){
@@ -211,6 +216,10 @@ public class GUIIKTW extends JFrame {
         }
         return c0ntrol.isYesOrNot();
     }
+
+    /**
+     * This method empty our GUI of the game
+     */
 
     public void vaciarDIU(){
         panelNorte.setEnabled(false);

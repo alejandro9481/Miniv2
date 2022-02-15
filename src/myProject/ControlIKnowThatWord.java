@@ -11,7 +11,6 @@ public class ControlIKnowThatWord {
     private int time, level, success, cont, fail, learnWord, score;
     private String [] trueWord, allWord;
     private String firstWord, name;
-
     private boolean yesOrNot, start;
     private Word word = new Word();
 
@@ -28,19 +27,15 @@ public class ControlIKnowThatWord {
         this.cont = 0;
         this.start = true;
         this.firstWord = "";
-
         levelSize();
-
         this.trueWord = new String[learnWord];
         this.allWord = new String[2*learnWord];
-
-            fullSelection();
-            trueSelection();
-
+        fullSelection();
+        trueSelection();
     }
 
     /**
-     * Method fullSelection is ...
+     * Method fullSelection is for Save all words per level
      */
     public String[] fullSelection(){
         Random random = new Random();
@@ -56,7 +51,7 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
+        //System.out.println("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB");
         for(int j=0; j<2*learnWord; j++){
             System.out.println(allWord[j]);
         }
@@ -65,7 +60,7 @@ public class ControlIKnowThatWord {
     }
 
     /**
-     * Method trueSelection is ...
+     * Method trueSelection is for save all true words
      */
     public String[] trueSelection(){
         Random random = new Random();
@@ -84,7 +79,6 @@ public class ControlIKnowThatWord {
                 }
             }
         }
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         for(int j=0; j<learnWord; j++){
             System.out.println(trueWord[j]);
         }
@@ -93,7 +87,7 @@ public class ControlIKnowThatWord {
     }
 
     /**
-     * Method levelSize is ...
+     * Method levelSize is for Calculate the level size
      */
     public int levelSize(){
         int five = 5;
@@ -111,7 +105,7 @@ public class ControlIKnowThatWord {
     }
 
     /**
-     * Method message is ...
+     * Method message is for calculate the percent of hits to beat the level
      */
     public int message(){
         if(level == 1 || level == 2){
@@ -145,60 +139,116 @@ public class ControlIKnowThatWord {
             return 200;
         }
     }
-
+    /**
+     * Method getName return the name
+     */
     public String getName() { return name; }
-
+    /**
+     * Method setName set the name
+     */
     public void setName(String name) { this.name = name; }
-
+    /**
+     * Method getScore return the score
+     */
     public int getScore() { return score; }
-
+    /**
+     * Method setScore set the score
+     */
     public void setScore(int score) { this.score = score; }
-
+    /**
+     * Method getFirstWord return the first word
+     */
     public String getFirstWord() { return firstWord; }
-
+    /**
+     * Method setFirstWord set the first word
+     */
     public void setFirstWord(String firstWord) { this.firstWord = firstWord; }
-
+    /**
+     * Method getLearnWord return the learn word
+     */
     public int getLearnWord() { levelSize();return learnWord;}
-
+    /**
+     * Method setLearnWord set the learn word
+     */
     public void setLearnWord(int learnWord) { this.learnWord = learnWord; }
-
+    /**
+     * Method getTime return the time
+     */
     public int getTime() { return time; }
-
+    /**
+     * Method getTime set the time
+     */
     public void setTime(int time) { this.time = time; }
-
+    /**
+     * Method getLevel return the level
+     */
     public int getLevel() { return level; }
-
+    /**
+     * Method setLevel set the level
+     */
     public void setLevel(int level) { this.level = level; }
-
+    /**
+     * Method getSuccess return if is Success
+     */
     public int getSuccess() { return success; }
-
+    /**
+     * Method setSuccess set if is Success
+     */
     public void setSuccess(int success) { this.success = success; }
-
+    /**
+     * Method getCont return the cont
+     */
     public int getCont() { return cont; }
-
+    /**
+     * Method setCont set the cont
+     */
     public void setCont(int cont) { this.cont = cont; }
-
+    /**
+     * Method getFail return the fail
+     */
     public int getFail() { return fail; }
-
+    /**
+     * Method setFail set the fail
+     */
     public void setFail(int fail) { this.fail = fail; }
-
+    /**
+     * Method getTrueWord return the true word
+     */
     public String[] getTrueWord() { return trueWord; }
-
+    /**
+     * Method setTrueWord set the true word
+     */
     public void setTrueWord(String[] trueWord) { this.trueWord = trueWord; }
-
+    /**
+     * Method getTrueWord return all Words
+     */
     public String[] getAllWord() { return allWord; }
-
+    /**
+     * Method setAllWord set all Words
+     */
     public void setAllWord(String[] allWord) { this.allWord = allWord; }
-
+    /**
+     * Method getTrueWord return if is Yes or Not
+     */
     public boolean isYesOrNot() { return yesOrNot; }
-
+    /**
+     * Method setYesOrNot set if is Yes or Not
+     */
     public void setYesOrNot(boolean yesOrNot) { this.yesOrNot = yesOrNot; }
-
+    /**
+     * Method isStart return if the Start
+     */
     public boolean isStart() { return start; }
-
+    /**
+     * Method setStart set the Start
+     */
     public void setStart(boolean start) { this.start = start; }
-
+    /**
+     * Method getWord return the word
+     */
     public Word getWord() { return word; }
-
+    /**
+     * Method setWord set the word
+     */
     public void setWord(Word word) { this.word = word; }
 }

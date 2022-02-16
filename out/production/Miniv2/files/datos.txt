@@ -1,8 +1,7 @@
 alejandro;1
-javier;3
-alejandro;5
-javier;1
-javier;1
-mano;1
-javier;1
 javier;2
+alejandro;5
+javier;2
+javier;3
+mano;2
+new;9

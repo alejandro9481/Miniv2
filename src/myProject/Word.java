@@ -42,10 +42,16 @@ public class Word {
      * @return the level of the player
      */
     public int getLevel(int n) {
-        char c = usuarios.get(n).charAt(usuarios.get(n).length()-1);
-        int dig = Character.getNumericValue(c);
-        System.out.println(dig);
-        return dig;
+        String clave ="";
+        for(int i=0;i<usuarios.get(n).length();i++){
+            if(usuarios.get(n).charAt(i) == ';'){
+                i++;
+                for(i=i;i<usuarios.get(n).length();i++){
+                    clave += usuarios.get(n).charAt(i);
+                }
+            }
+        }
+        return Integer.parseInt(clave);
     }
     /**
      * Method setLevel set the users level

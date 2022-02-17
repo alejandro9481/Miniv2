@@ -13,6 +13,7 @@ import java.util.Random;
 public class Word {
     private ArrayList<String> diccionario = new ArrayList<String>();
     private ArrayList<String> usuarios = new ArrayList<String>();
+    private ArrayList<String> guardados = new ArrayList<String>();
     private int range, rangeUsuario;
     private boolean verificador;
     private FileManager fileManager = new FileManager();
@@ -23,6 +24,7 @@ public class Word {
      */
     public Word(){
         datos();
+        this.guardados = usuarios;
         this.rangeUsuario = usuarios.size();
         FileManager fileManager = new FileManager();
         diccionario = fileManager.lecturaFile();
@@ -69,7 +71,7 @@ public class Word {
      * Method setLevelName set the users name
      * @param nombre this is the name of the player
      * @param level this is the level of the player
-     * @return
+     * @return nuevoTexto is the line
      */
     public String setLevelName(String nombre, int level) {
         String nuevoTexto = nombre + ";" + level;
@@ -92,7 +94,22 @@ public class Word {
         }else{
             linea = 0;
         }
+        return linea;
+    }
 
+    /**
+     * Method ultimoNombre is to find the last name in the text file
+     */
+    public int listaGuardados(String nombre){
+        if(getUsuario(nombre)){
+            for(int i=0;i<usuarios.size();i++){
+                if(getNombre(i).equals(nombre)){
+                    linea = i;
+                }
+            }
+        }else{
+            linea = 0;
+        }
         return linea;
     }
 

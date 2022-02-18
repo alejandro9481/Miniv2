@@ -1,6 +1,7 @@
 package myProject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -33,9 +34,30 @@ public class Word {
      * Method datos read the data of the users file
      */
     public void datos(){
+        ArrayList<String> guardado = new ArrayList<String>();
         FileManager fileManager = new FileManager();
+        String texto = "linea para el siguiente usuario";
+        guardado = fileManager.LecturaUsuario();
+
+        if(!guardado.get(guardado.size()-1).equals(texto)){
+            fileManager.escribirTexto(texto);
+        }
         usuarios = fileManager.LecturaUsuario();
+
     }
+
+    /**
+     * Method listaGuardados is to get a list of the last names in the text file
+     */
+    public void listaGuardados(){
+        fileManager.limpiarTextoGuardados();
+
+        for(int i=0;i<usuarios.size();i++){
+            fileManager.escribirTexto(usuarios.get(i));
+        }
+        //fileManager.escribirTexto("linea para el siguiente usuario");
+    }
+
     /**
      * This method is used for get player level
      * @param n
@@ -53,26 +75,34 @@ public class Word {
         }
         return Integer.parseInt(clave);
     }
+
     /**
      * Method setLevel set the users level
+     * @param n this is the name of the player
+     * @param level this is the level of the player
      */
     public void setLevel(int n, int level) {
         char c = usuarios.get(n).charAt(usuarios.get(n).length()-1);
         String nuevoTexto = getNombre(n) + ";" + level;
         fileManager.escribirTexto(nuevoTexto);
+        listaGuardados();
     }
+
     /**
      * Method setLevelName set the users name
-     * @return
+     * @param nombre this is the name of the player
+     * @param level this is the level of the player
+     * @return nuevoTexto is the line
      */
     public String setLevelName(String nombre, int level) {
         String nuevoTexto = nombre + ";" + level;
-        fileManager.escribirTexto(nuevoTexto);
+        usuarios.set(usuarios.size()-1,nuevoTexto);
+        listaGuardados();
         return nuevoTexto;
     }
 
     /**
-     *
+     * Method ultimoNombre is to find the last name in the text file
      * @param nombre is the name I want to search
      * @return the last name in the file of users
      */
@@ -86,12 +116,11 @@ public class Word {
         }else{
             linea = 0;
         }
-
         return linea;
     }
 
     /**
-     *
+     * Method getNombre is to find the user name
      * @param n is the line in the users file
      * @return the name of the user
      */
@@ -108,7 +137,7 @@ public class Word {
     }
 
     /**
-     *
+     * Method getUsuario is to find the User
      * @param nuevo is the user name
      * @return if a user is new in the users file
      */
@@ -125,7 +154,7 @@ public class Word {
     }
 
     /**
-     *
+     *  Method getFrase is to find the sentence in the text file
      * @param number is the position on the file
      * @return the phrase of a specific position
      */
@@ -140,4 +169,5 @@ public class Word {
      * Method getRange return the words range
      */
     public int getRange() { return range; }
+
 }

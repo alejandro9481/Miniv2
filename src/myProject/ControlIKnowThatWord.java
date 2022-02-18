@@ -18,7 +18,7 @@ public class ControlIKnowThatWord {
      * Clase IKnowThatWord is the constructor
      */
     public ControlIKnowThatWord(int level, String name){
-        this.word = new Word();
+        //this.word = new Word();
         this.name = name;
         this.level = level;
         this.score = score;
@@ -36,6 +36,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method fullSelection is for Save all words per level
+     * @return all words
      */
     public String[] fullSelection(){
         Random random = new Random();
@@ -61,6 +62,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method trueSelection is for save all true words
+     * @return words true
      */
     public String[] trueSelection(){
         Random random = new Random();
@@ -91,6 +93,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method levelSize is for Calculate the level size
+     * @return the level size
      */
     public int levelSize(){
         int five = 5;
@@ -109,6 +112,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method message is for calculate the percent of hits to beat the level
+     * @return the num at percent of the level
      */
     public int message(){
         if(level == 1 || level == 2){
@@ -130,6 +134,7 @@ public class ControlIKnowThatWord {
 
     /**
      * Method verifyAnswer is the answers requiere to the next level
+     * @return the num of answers requiere to the next level
      */
     public int verifyAnswer(){
         if(level == 3){

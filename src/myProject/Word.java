@@ -94,10 +94,16 @@ public class Word {
      * @param level this is the level of the player
      * @return nuevoTexto is the line
      */
-    public String setLevelName(String nombre, int level) {
+    public String setLevelName(String nombre, int level, int posicion) {
         String nuevoTexto = nombre + ";" + level;
-        usuarios.set(usuarios.size()-1,nuevoTexto);
-        listaGuardados();
+        if(getUsuario(nombre)){
+            usuarios.set(ultimoNombre(nombre),nuevoTexto);
+            listaGuardados();
+        }else{
+            usuarios.set(usuarios.size()-1,nuevoTexto);
+            listaGuardados();
+        }
+
         return nuevoTexto;
     }
 

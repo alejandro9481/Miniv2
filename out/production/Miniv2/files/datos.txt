@@ -2,4 +2,4 @@ alejandro;1
 javier;2
 mano;1
 new;10
-asd;1
+linea para el siguiente usuario

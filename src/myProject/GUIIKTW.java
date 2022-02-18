@@ -171,7 +171,8 @@ public class GUIIKTW extends JFrame {
                 //Reinicio ronda
                 vaciarDIU();
                 c0ntrol = new ControlIKnowThatWord(c0ntrol.getLevel(),ingresarNombre.getText());
-                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
+                int constante = c0ntrol.getWord().ultimoNombre(getName());
+                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel(),constante);
                 initDIU(c0ntrol);
                 revalidate();
                 repaint();
@@ -200,7 +201,8 @@ public class GUIIKTW extends JFrame {
                 //nueva ronda
                 vaciarDIU();
                 c0ntrol = new ControlIKnowThatWord(c0ntrol.getLevel()+1,ingresarNombre.getText());
-                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
+                int constante = c0ntrol.getWord().ultimoNombre(getName());
+                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel(),constante);
                 initDIU(c0ntrol);
 
                 revalidate();
@@ -281,7 +283,7 @@ public class GUIIKTW extends JFrame {
                 if(c0ntrol.isStart()){
                     //System.out.println("aquí estoy");
                     c0ntrol.setTime(c0ntrol.getTime()+1);
-                    if(c0ntrol.getTime() < 1){//5 segundos
+                    if(c0ntrol.getTime() < 5){//5 segundos
 
                     }else{
                         //Palabra
@@ -486,7 +488,8 @@ public class GUIIKTW extends JFrame {
                 }else{
                     c0ntrol = control;
                     initDIU(c0ntrol);
-                    c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
+                    int constante = c0ntrol.getWord().ultimoNombre(getName());
+                    c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel(),constante);
                 }
 
                 vista.pack();

@@ -1,4 +1,4 @@
 alejandro;1
 javier;2
-
-w;1
+mano;1
+new;10

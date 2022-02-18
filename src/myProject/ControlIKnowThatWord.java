@@ -18,7 +18,7 @@ public class ControlIKnowThatWord {
      * Clase IKnowThatWord is the constructor
      */
     public ControlIKnowThatWord(int level, String name){
-        this.word = new Word();
+        //this.word = new Word();
         this.name = name;
         this.level = level;
         this.score = score;

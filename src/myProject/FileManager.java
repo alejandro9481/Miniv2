@@ -8,8 +8,8 @@ public class FileManager {
     public static  final String PATH2 = "src/files/datos.txt";
     private FileReader fileReader , fileReaderUsuario;
     private BufferedReader input , inputUsuario;
-    private FileWriter fileWriter;
-    private BufferedWriter output;
+    private FileWriter fileWriter, fileWriterGuardados;
+    private BufferedWriter output, outputGuardados;
 
     /**
      * Method LecturaUsuario read word data file
@@ -81,6 +81,23 @@ public class FileManager {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void limpiarTextoGuardados(){
+        try {
+            fileWriterGuardados = new FileWriter("src/files/datos.txt",false);
+            outputGuardados = new BufferedWriter(fileWriterGuardados);
+            outputGuardados.write("");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                outputGuardados.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

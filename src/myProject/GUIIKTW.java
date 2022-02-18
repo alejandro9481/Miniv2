@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 public class GUIIKTW extends JFrame {
 
     private JPanel panelsur, panelCentro, panelNorte, panelUsuarioN, panelUsuarioS;
-    private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2;
+    private JLabel puntuacion, nivel, palabra, espacio0, espacio1,espacio2,nombre;
     private JButton si, no, salir, ingresar, instrucciones;
     private JTextField ingresarNombre;
     private JTextArea mensajes;
@@ -103,7 +103,8 @@ public class GUIIKTW extends JFrame {
 
         //JLabels
         puntuacion = new JLabel("       Score:       "+otro.getSuccess()*10);
-        nivel = new JLabel("Level:    "+otro.getLevel());
+        nivel = new JLabel("       Level:    "+otro.getLevel());
+        nombre = new JLabel("Name:  "+otro.getName());
         palabra = new JLabel(otro.getFirstWord());
         espacio0 = new JLabel("                                              "+
                 "                                                 "+
@@ -111,8 +112,7 @@ public class GUIIKTW extends JFrame {
                 "                                                 ");
         espacio1 = new JLabel("                                               "+
                 "            ");
-        espacio2 = new JLabel("                                              "+
-                "                                 ");
+        espacio2 = new JLabel("                                           ");
 
 
         //Norte
@@ -133,6 +133,7 @@ public class GUIIKTW extends JFrame {
         //sur
         panelsur.setPreferredSize(new Dimension(400,40));
 
+        panelsur.add(nombre);
         panelsur.add(nivel);
         panelsur.add(puntuacion);
         panelsur.add(espacio2);
@@ -170,7 +171,7 @@ public class GUIIKTW extends JFrame {
                 //Reinicio ronda
                 vaciarDIU();
                 c0ntrol = new ControlIKnowThatWord(c0ntrol.getLevel(),ingresarNombre.getText());
-                c0ntrol.getWord().setLevelName(c0ntrol.getName(),1);
+                c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
                 initDIU(c0ntrol);
                 revalidate();
                 repaint();
@@ -459,6 +460,9 @@ public class GUIIKTW extends JFrame {
                     c0ntrol.setTime(0);
                 }
             }else if(eventAction.getSource() == ingresar){
+                JOptionPane.showMessageDialog(null,
+                        "Remenber, You have to remmenber the words"
+                        , "warning", JOptionPane.INFORMATION_MESSAGE);
                 //Guardamos el nombre del JTextField
                 control.setName(ingresarNombre.getText());
 
@@ -482,7 +486,7 @@ public class GUIIKTW extends JFrame {
                 }else{
                     c0ntrol = control;
                     initDIU(c0ntrol);
-                    c0ntrol.getWord().setLevelName(c0ntrol.getName(),1);
+                    c0ntrol.getWord().setLevelName(c0ntrol.getName(),c0ntrol.getLevel());
                 }
 
                 vista.pack();

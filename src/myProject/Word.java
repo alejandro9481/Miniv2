@@ -1,6 +1,7 @@
 package myProject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -13,7 +14,6 @@ import java.util.Random;
 public class Word {
     private ArrayList<String> diccionario = new ArrayList<String>();
     private ArrayList<String> usuarios = new ArrayList<String>();
-    private ArrayList<String> guardados = new ArrayList<String>();
     private int range, rangeUsuario;
     private boolean verificador;
     private FileManager fileManager = new FileManager();
@@ -24,7 +24,6 @@ public class Word {
      */
     public Word(){
         datos();
-        this.guardados = usuarios;
         this.rangeUsuario = usuarios.size();
         FileManager fileManager = new FileManager();
         diccionario = fileManager.lecturaFile();
@@ -35,9 +34,30 @@ public class Word {
      * Method datos read the data of the users file
      */
     public void datos(){
+        ArrayList<String> guardado = new ArrayList<String>();
         FileManager fileManager = new FileManager();
+        String texto = "linea para el siguiente usuario";
+        guardado = fileManager.LecturaUsuario();
+
+        if(!guardado.get(guardado.size()-1).equals(texto)){
+            fileManager.escribirTexto(texto);
+        }
         usuarios = fileManager.LecturaUsuario();
+
     }
+
+    /**
+     * Method listaGuardados is to get a list of the last names in the text file
+     */
+    public void listaGuardados(){
+        fileManager.limpiarTextoGuardados();
+
+        for(int i=0;i<usuarios.size();i++){
+            fileManager.escribirTexto(usuarios.get(i));
+        }
+        //fileManager.escribirTexto("linea para el siguiente usuario");
+    }
+
     /**
      * This method is used for get player level
      * @param n
@@ -65,6 +85,7 @@ public class Word {
         char c = usuarios.get(n).charAt(usuarios.get(n).length()-1);
         String nuevoTexto = getNombre(n) + ";" + level;
         fileManager.escribirTexto(nuevoTexto);
+        listaGuardados();
     }
 
     /**
@@ -75,7 +96,8 @@ public class Word {
      */
     public String setLevelName(String nombre, int level) {
         String nuevoTexto = nombre + ";" + level;
-        fileManager.escribirTexto(nuevoTexto);
+        usuarios.set(usuarios.size()-1,nuevoTexto);
+        listaGuardados();
         return nuevoTexto;
     }
 
@@ -85,22 +107,6 @@ public class Word {
      * @return the last name in the file of users
      */
     public int ultimoNombre(String nombre){
-        if(getUsuario(nombre)){
-            for(int i=0;i<usuarios.size();i++){
-                if(getNombre(i).equals(nombre)){
-                    linea = i;
-                }
-            }
-        }else{
-            linea = 0;
-        }
-        return linea;
-    }
-
-    /**
-     * Method ultimoNombre is to find the last name in the text file
-     */
-    public int listaGuardados(String nombre){
         if(getUsuario(nombre)){
             for(int i=0;i<usuarios.size();i++){
                 if(getNombre(i).equals(nombre)){
@@ -163,4 +169,5 @@ public class Word {
      * Method getRange return the words range
      */
     public int getRange() { return range; }
+
 }

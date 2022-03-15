@@ -467,6 +467,9 @@ public class GUIIKTW extends JFrame {
                         , "warning", JOptionPane.INFORMATION_MESSAGE);
                 //Guardamos el nombre del JTextField
                 control.setName(ingresarNombre.getText());
+                int input = JOptionPane.showConfirmDialog(null, "Do you like bacon?");
+                // 0=yes, 1=no, 2=cancel
+                System.out.println(input);
 
                 //Se quita el boton de inicio porque solamente se puede activar una vez por ejecución del programa
                 ingresar.setVisible(false);
